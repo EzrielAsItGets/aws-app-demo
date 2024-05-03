@@ -9,6 +9,8 @@ module "ecs_role" {
 
   role_name = "${var.project_id}-ecs-role-${var.aws_region_short_names[var.aws_region]}"
 
+  trusted_role_services = ["ecs.amazonaws.com"]
+
   custom_role_policy_arns = [
     "arn:aws:iam::aws:policy/AmazonECS_FullAccess",
   ]
