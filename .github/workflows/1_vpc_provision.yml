@@ -1,4 +1,4 @@
-name: 1 Provision Roles
+name: 2 Provision Roles
 
 #on: 
 #  push:
@@ -17,7 +17,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        config: [1_roles]
+        config: [1_vpc]
         aws_region: [us-east-1, us-west-2]
     steps:
       - name: Checkout code
