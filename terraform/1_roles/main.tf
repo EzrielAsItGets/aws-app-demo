@@ -2,7 +2,7 @@
 # Main
 # -----------------------------------------------------------------------
 
-module "iam_assumable_role" {
+module "ecs_role" {
   source = "terraform-aws-modules/iam/aws//modules/iam-assumable-role"
 
   create_role = true
