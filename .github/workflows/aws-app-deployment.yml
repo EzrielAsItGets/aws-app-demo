@@ -32,6 +32,7 @@ jobs:
         run: |
           WORKSPACE_PREFIX="myapp"
           WORKSPACE_NAME="${WORKSPACE_PREFIX}-${{ matrix.config }}-${{ matrix.aws_region }}"
+          echo "TF_WORKSPACE=$WORKSPACE_NAME" >> $GITHUB_ENV
           curl --request POST \
                --url https://app.terraform.io/api/v2/organizations/ezrielasitgets/workspaces \
                --header 'Authorization: Bearer ${{ secrets.TF_API_TOKEN }}' \
@@ -49,7 +50,6 @@ jobs:
                    "type": "workspaces"
                  }
                }'
-          echo "TF_WORKSPACE=$WORKSPACE_NAME" >> $GITHUB_ENV
 
       - name: Initialize Terraform
         run: |
