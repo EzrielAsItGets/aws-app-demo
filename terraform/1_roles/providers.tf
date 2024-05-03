@@ -1,4 +1,10 @@
 terraform {
+  backend "remote" {
+    organization = "ezrielasitgets"
+    workspaces {
+      prefix = "myapp"
+    }
+  }
   required_providers {
     aws = {
       source  = "hashicorp/aws"
