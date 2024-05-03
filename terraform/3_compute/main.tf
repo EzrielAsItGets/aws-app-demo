@@ -58,7 +58,7 @@ module "ecs_task_definition" {
     }
   }
 
-  subnet_ids = data.terraform_remote_state.base_workspace.outputs.vpc_private_subnets.value
+  subnet_ids = data.terraform_remote_state.base_workspace.outputs.vpc_private_subnets
 
   security_group_rules = {
     egress_all = {
