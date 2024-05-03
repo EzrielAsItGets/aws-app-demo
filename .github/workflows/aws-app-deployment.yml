@@ -57,4 +57,4 @@ jobs:
         run: |
           cd terraform/${{ matrix.config }}
           VAR_FILE="../variables/${GITHUB_REF##*/}.tfvars"  # Extracts the branch name and appends .tfvars
-          terraform apply -auto-approve -var-file="$VAR_FILE" -var "region=${{ matrix.aws_region }}"
+          terraform apply -auto-approve -var-file="$VAR_FILE" -var "aws_region=${{ matrix.aws_region }}"
