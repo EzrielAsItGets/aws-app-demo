@@ -46,6 +46,11 @@ jobs:
                    "type": "workspaces"
                  }
                }'
+      
+      - name: Initialize Terraform
+        run: |
+          cd terraform/${{ matrix.config }}
+          terraform init
 
       - name: Select or Create Terraform Workspace
         run: |
