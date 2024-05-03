@@ -40,6 +40,10 @@ jobs:
           WORKSPACE_NAME="${WORKSPACE_PREFIX}-${{ matrix.config }}-${{ matrix.aws_region }}"
           terraform workspace select $WORKSPACE_NAME || terraform workspace new $WORKSPACE_NAME
 
+      - name: Output Workspace Name
+        run: |
+          echo "Workspace Name: $WORKSPACE_NAME"
+        
       - name: Terraform Apply with Environment Specific Variables
         run: |
           cd terraform/${{ matrix.config }}
