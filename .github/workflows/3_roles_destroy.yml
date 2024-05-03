@@ -1,4 +1,4 @@
-name: Terraform Deploy to Multiple Regions
+name: 3 Destroy Roles
 
 #on: 
 #  push:
@@ -17,31 +17,30 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        config: [1_roles, 2_compute, 3_networking]
+        config: [1_roles]
         aws_region: [us-east-1, us-west-2]
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       
       - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v1
+        uses: hashicorp/setup-terraform@v2
         with:
           cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
-      
+    
+      - name: Select Terraform Workspace
+        run: |
+          WORKSPACE_PREFIX="myapp"
+          WORKSPACE_NAME="${WORKSPACE_PREFIX}-${{ matrix.config }}-${{ matrix.aws_region }}"
+          echo "TF_WORKSPACE=$WORKSPACE_NAME" >> $GITHUB_ENV
+
       - name: Initialize Terraform
         run: |
           cd terraform/${{ matrix.config }}
-          terraform init
-
-      - name: Select or Create Terraform Workspace
-        run: |
-          cd terraform/${{ matrix.config }}
-          WORKSPACE_PREFIX="myapp"  # Hardcoded prefix
-          WORKSPACE_NAME="${WORKSPACE_PREFIX}-${{ matrix.config }}-${{ matrix.aws_region }}"
-          terraform workspace select $WORKSPACE_NAME || terraform workspace new $WORKSPACE_NAME
-
+          terraform init -input=false
+        
       - name: Terraform Apply with Environment Specific Variables
         run: |
           cd terraform/${{ matrix.config }}
           VAR_FILE="../variables/${GITHUB_REF##*/}.tfvars"  # Extracts the branch name and appends .tfvars
-          terraform apply -auto-approve -var-file="$VAR_FILE" -var "region=${{ matrix.aws_region }}"
+          terraform destroy -auto-approve -var-file="$VAR_FILE" -var "aws_region=${{ matrix.aws_region }}"

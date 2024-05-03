@@ -1,4 +1,14 @@
+# -----------------------------------------------------------------------
+# Providers
+# -----------------------------------------------------------------------
+
 terraform {
+  cloud {
+    organization = "ezrielasitgets"
+    workspaces {
+      tags = []
+    }
+  }
   required_providers {
     aws = {
       source  = "hashicorp/aws"

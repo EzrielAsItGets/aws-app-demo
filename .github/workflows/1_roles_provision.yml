@@ -1,0 +1,60 @@
+name: 1 Provision Roles
+
+#on: 
+#  push:
+#    branches:
+#      - develop
+#      - master
+#    paths:
+#      - 'terraform/**'
+
+on: 
+    workflow_dispatch:  # This enables manual trigger from GitHub UI
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        config: [1_roles]
+        aws_region: [us-east-1, us-west-2]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
+    
+      - name: Create and Select Terraform Workspace
+        run: |
+          WORKSPACE_PREFIX="myapp"
+          WORKSPACE_NAME="${WORKSPACE_PREFIX}-${{ matrix.config }}-${{ matrix.aws_region }}"
+          echo "TF_WORKSPACE=$WORKSPACE_NAME" >> $GITHUB_ENV
+          curl --request POST \
+               --url https://app.terraform.io/api/v2/organizations/ezrielasitgets/workspaces \
+               --header 'Authorization: Bearer ${{ secrets.TF_API_TOKEN }}' \
+               --header 'Content-Type: application/vnd.api+json' \
+               --data '{
+                 "data": {
+                   "attributes": {
+                     "name": "'$WORKSPACE_NAME'",
+                     "auto-apply": false,
+                     "terraform-version": "1.8.2"
+                   },
+                   "type": "workspaces"
+                 }
+               }'
+
+      - name: Initialize Terraform
+        run: |
+          cd terraform/${{ matrix.config }}
+          terraform init -input=false
+        
+      - name: Terraform Apply with Environment Specific Variables
+        run: |
+          cd terraform/${{ matrix.config }}
+          VAR_FILE="../variables/${GITHUB_REF##*/}.tfvars"  # Extracts the branch name and appends .tfvars
+          terraform apply -auto-approve -var-file="$VAR_FILE" -var "aws_region=${{ matrix.aws_region }}"
