@@ -1,4 +1,4 @@
-name: Terraform Deploy to Multiple Regions
+name: Terraform Destroy Roles Multi-Region
 
 #on: 
 #  push:
