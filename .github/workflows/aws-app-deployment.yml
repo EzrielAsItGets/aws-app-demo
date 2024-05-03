@@ -51,6 +51,12 @@ jobs:
         run: |
           cd terraform/${{ matrix.config }}
           terraform init
+
+      - name: Select or Create Terraform Workspace
+        run: |
+          cd terraform/${{ matrix.config }}
+          WORKSPACE_NAME="myapp-${{ matrix.config }}-${{ matrix.aws_region }}"
+          terraform workspace select $WORKSPACE_NAME
         
       - name: Terraform Apply with Environment Specific Variables
         run: |
