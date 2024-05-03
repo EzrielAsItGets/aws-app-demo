@@ -1,0 +1,47 @@
+name: Terraform Deploy to Multiple Regions
+
+#on: 
+#  push:
+#    branches:
+#      - develop
+#      - master
+#    paths:
+#      - 'terraform/**'
+
+on: 
+    workflow_dispatch:  # This enables manual trigger from GitHub UI
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        config: [1_roles, 2_compute, 3_networking]
+        aws_region: [us-east-1, us-west-2]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v1
+        with:
+          cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
+      
+      - name: Initialize Terraform
+        run: |
+          cd terraform/${{ matrix.config }}
+          terraform init
+
+      - name: Select or Create Terraform Workspace
+        run: |
+          cd terraform/${{ matrix.config }}
+          WORKSPACE_PREFIX="myapp"  # Hardcoded prefix
+          WORKSPACE_NAME="${WORKSPACE_PREFIX}-${{ matrix.config }}-${{ matrix.aws_region }}"
+          terraform workspace select $WORKSPACE_NAME || terraform workspace new $WORKSPACE_NAME
+
+      - name: Terraform Apply with Environment Specific Variables
+        run: |
+          cd terraform/${{ matrix.config }}
+          VAR_FILE="../variables/${GITHUB_REF##*/}.tfvars"  # Extracts the branch name and appends .tfvars
+          terraform apply -auto-approve -var-file="$VAR_FILE" -var "region=${{ matrix.aws_region }}"
