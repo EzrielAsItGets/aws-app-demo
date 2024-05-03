@@ -1,6 +1,6 @@
 project_id = "myapp"
 common_tags = {
   env       = "dev"
-  terraform = true
+  terraform = "true"
   app       = "myapp"
 }

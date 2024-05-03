@@ -19,7 +19,7 @@ variable "common_tags" {
 
 variable "aws_region_short_names" {
   description = "Map of AWS Region names to their shortened forms"
-  type        = map(object)
+  type        = map(string)
   default = {
     "us-east-1" = "use1"
     "us-west-2" = "usw2"
