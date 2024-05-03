@@ -1,4 +1,4 @@
-name: 3 Destroy Roles
+name: Destroy 2 Compute
 
 #on: 
 #  push:
@@ -17,7 +17,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        config: [2_roles]
+        config: [3_compute]
         aws_region: [us-east-1, us-west-2]
     steps:
       - name: Checkout code
