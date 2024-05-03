@@ -46,18 +46,6 @@ jobs:
                    "type": "workspaces"
                  }
                }'
-      
-      - name: Initialize Terraform
-        run: |
-          cd terraform/${{ matrix.config }}
-          if [[ "${{ matrix.aws_region }}" == "us-east-1" ]]; then
-            echo "1" | terraform init
-          elif [[ "${{ matrix.aws_region }}" == "us-west-2" ]]; then
-            echo "2" | terraform init
-          else
-            echo "Invalid region provided"
-            exit 1
-          fi
 
       - name: Select or Create Terraform Workspace
         run: |
