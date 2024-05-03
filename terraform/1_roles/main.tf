@@ -7,7 +7,7 @@ module "ecs_role" {
 
   create_role = true
 
-  role_name = "${var.project_id}-ecs-role-${var.aws_region_short_names[var.aws_Region]}"
+  role_name = "${var.project_id}-ecs-role-${var.aws_region_short_names[var.aws_region]}"
 
   custom_role_policy_arns = [
     "arn:aws:iam::aws:policy/AmazonECS_FullAccess",
