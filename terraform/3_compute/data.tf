@@ -7,7 +7,7 @@ data "terraform_remote_state" "base_workspace" {
   config = {
     organization = "ezrielasitgets"
     workspaces = {
-      name = "${var.project_id}-1_base-${var.aws_region_short_names[var.aws_region]}"
+      name = "${var.project_id}-1_base-${var.aws_region}"
     }
   }
 }
