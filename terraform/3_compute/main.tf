@@ -25,7 +25,7 @@ module "ecs_cluster" {
 }
 
 module "ecs_task_definition" {
-  source = "../../modules/service"
+  source = "terraform-aws-modules/ecs/aws//modules/service"
 
   # Service
   name        = "${var.project_id}-ecs-service-${var.aws_region_short_names[var.aws_region]}"
