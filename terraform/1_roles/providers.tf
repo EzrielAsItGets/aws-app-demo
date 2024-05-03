@@ -1,6 +1,9 @@
 terraform {
   cloud {
     organization = "ezrielasitgets"
+    workspaces {
+      tags = ["app:mine"]
+    }
   }
   required_providers {
     aws = {
