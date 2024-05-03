@@ -53,6 +53,7 @@ jobs:
 
       - name: Initialize Terraform
         run: |
+          cd terraform/${{ matrix.config }}
           terraform init -input=false
         
       - name: Terraform Apply with Environment Specific Variables
