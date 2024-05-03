@@ -2,7 +2,7 @@ terraform {
   backend "remote" {
     organization = "ezrielasitgets"
     workspaces {
-      name = "myapp-1_roles-${var.aws_region}"
+      prefix = "myapp-1_roles-"
     }
   }
   required_providers {
