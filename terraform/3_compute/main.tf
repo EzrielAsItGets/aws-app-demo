@@ -29,7 +29,7 @@ module "ecs_task_definition" {
 
   # Service
   name        = "${var.project_id}-ecs-service-${var.aws_region_short_names[var.aws_region]}"
-  cluster_arn = module.ecs_cluster.arn
+  cluster_arn = module.ecs_cluster.cluster_arn
 
   # Task Definition
   volume = {
@@ -58,7 +58,7 @@ module "ecs_task_definition" {
     }
   }
 
-  subnet_ids = data.terraform_remote_state.base_workspace.output.vpc_private_subnets.value
+  subnet_ids = data.terraform_remote_state.base_workspace.outputs.vpc_private_subnets.value
 
   security_group_rules = {
     egress_all = {
@@ -70,6 +70,6 @@ module "ecs_task_definition" {
     }
   }
 
-  tags = local.tags
+  tags = var.common_tags
 }
 

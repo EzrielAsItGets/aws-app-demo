@@ -12,7 +12,7 @@ on:
     workflow_dispatch:  # This enables manual trigger from GitHub UI
 
 jobs:
-  deploy:
+  destroy:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
