@@ -44,7 +44,7 @@ jobs:
                      "auto-apply": false,
                      "terraform-version": "1.8.2",
                      "tags": {
-                        "app": "mine"
+                        "app":"myapp"
                       }
                    },
                    "type": "workspaces"
