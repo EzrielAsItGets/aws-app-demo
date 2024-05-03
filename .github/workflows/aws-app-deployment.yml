@@ -42,10 +42,7 @@ jobs:
                    "attributes": {
                      "name": "'$WORKSPACE_NAME'",
                      "auto-apply": false,
-                     "terraform-version": "1.8.2",
-                     "tags": {
-                        "app":"myapp"
-                      }
+                     "terraform-version": "1.8.2"
                    },
                    "type": "workspaces"
                  }

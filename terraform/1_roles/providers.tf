@@ -2,7 +2,7 @@ terraform {
   cloud {
     organization = "ezrielasitgets"
     workspaces {
-      tags = ["app:myapp"]
+      tags = []
     }
   }
   required_providers {
