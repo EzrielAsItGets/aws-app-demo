@@ -1,0 +1,46 @@
+name: 2 Destroy Compute
+
+#on: 
+#  push:
+#    branches:
+#      - develop
+#      - master
+#    paths:
+#      - 'terraform/**'
+
+on: 
+    workflow_dispatch:  # This enables manual trigger from GitHub UI
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        config: [3_compute]
+        aws_region: [us-east-1, us-west-2]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
+    
+      - name: Select Terraform Workspace
+        run: |
+          WORKSPACE_PREFIX="myapp"
+          WORKSPACE_NAME="${WORKSPACE_PREFIX}-${{ matrix.config }}-${{ matrix.aws_region }}"
+          echo "TF_WORKSPACE=$WORKSPACE_NAME" >> $GITHUB_ENV
+
+      - name: Initialize Terraform
+        run: |
+          cd terraform/${{ matrix.config }}
+          terraform init -input=false
+        
+      - name: Terraform Apply with Environment Specific Variables
+        run: |
+          cd terraform/${{ matrix.config }}
+          VAR_FILE="../variables/${GITHUB_REF##*/}.tfvars"  # Extracts the branch name and appends .tfvars
+          terraform destroy -auto-approve -var-file="$VAR_FILE" -var "aws_region=${{ matrix.aws_region }}"
