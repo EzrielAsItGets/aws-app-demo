@@ -2,7 +2,7 @@ terraform {
   backend "remote" {
     organization = "ezrielasitgets"
     workspaces {
-      prefix = "myapp"
+      prefix = "myapp-1_roles-"
     }
   }
   required_providers {
