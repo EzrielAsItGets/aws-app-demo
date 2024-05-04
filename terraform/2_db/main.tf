@@ -6,7 +6,7 @@
 module "rds_mysql" {
   source = "terraform-aws-modules/rds/aws"
 
-  identifier = "${var.project_id}-default-${var.aws_region_short_names[var.aws_region]}"
+  identifier = "${var.project_id}-mysqldb-${var.aws_region_short_names[var.aws_region]}"
 
   create_db_option_group    = false
   create_db_parameter_group = false
@@ -20,8 +20,8 @@ module "rds_mysql" {
 
   allocated_storage = 200
 
-  db_name  = "completeMysql"
-  username = "complete_mysql"
+  db_name  = "myappmysql"
+  username = "username"
   port     = 8080
 
   maintenance_window = "Mon:00:00-Mon:03:00"
