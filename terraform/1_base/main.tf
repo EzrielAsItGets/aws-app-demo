@@ -59,9 +59,11 @@ module "vpc_endpoints" {
       tags                = { Name = "ecrdk-vpc-endpoint" }
     },
     s3 = {
-      service         = "s3"
-      route_table_ids = concat(module.vpc.private_route_table_ids, module.vpc.public_route_table_ids)
-      tags            = { Name = "s3-vpc-endpoint" }
+      service             = "s3"
+      service_type        = "Gateway"
+      private_dns_enabled = true
+      route_table_ids     = concat(module.vpc.private_route_table_ids, module.vpc.public_route_table_ids)
+      tags                = { Name = "s3-vpc-endpoint" }
     },
   }
   tags = var.common_tags
