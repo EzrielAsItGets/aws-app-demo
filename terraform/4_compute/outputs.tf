@@ -9,3 +9,11 @@ output "ecs_cluster_arn" {
 output "ecs_cluster_name" {
   value = module.ecs_cluster.cluster_name
 }
+
+output "ecs_container_name" {
+  value = module.ecs_task_definition.container_definitions
+}
+
+output "ecs_service_name" {
+  value = module.ecs_task_definition.name
+}

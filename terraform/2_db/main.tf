@@ -8,6 +8,8 @@ module "rds_mysql" {
 
   identifier = "${var.project_id}-mysqldb-${var.aws_region_short_names[var.aws_region]}"
 
+  create_db_subnet_group    = true
+  subnet_ids                = data.terraform_remote_state.base_workspace.outputs.vpc_private_subnets
   create_db_option_group    = false
   create_db_parameter_group = false
 
