@@ -31,9 +31,12 @@ module "ecs_task_definition" {
   iam_role_arn           = data.terraform_remote_state.roles_workspace.outputs.ecs_role_arn
   create_service         = true
   create_task_definition = true
-  runtime_platform = {
-    cpu_architecture        = "ARM64"
-    operating_system_family = "LINUX"
+  container_definitions = {
+    myappcontainer = {
+      image      = "988367001939.dkr.ecr.us-east-1.amazonaws.com/aws-app-demo:latest"
+      command    = ["node", "server.js"]
+      entrypoint = ["/bin/sh", "-c"]
+    }
   }
   task_exec_iam_role_arn = data.terraform_remote_state.roles_workspace.outputs.ecs_role_arn
   subnet_ids             = data.terraform_remote_state.base_workspace.outputs.vpc_private_subnets
