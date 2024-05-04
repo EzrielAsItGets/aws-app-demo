@@ -31,6 +31,10 @@ module "ecs_task_definition" {
   iam_role_arn           = data.terraform_remote_state.roles_workspace.outputs.ecs_role_arn
   create_service         = true
   create_task_definition = true
+  runtime_platform = {
+    cpu_architecture        = "ARM64"
+    operating_system_family = "LINUX"
+  }
   task_exec_iam_role_arn = data.terraform_remote_state.roles_workspace.outputs.ecs_role_arn
   subnet_ids             = data.terraform_remote_state.base_workspace.outputs.vpc_private_subnets
   tags                   = var.common_tags
