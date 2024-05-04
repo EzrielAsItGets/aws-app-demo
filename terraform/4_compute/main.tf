@@ -35,6 +35,7 @@ module "ecs_task_definition" {
   create_task_exec_policy   = false
   create_task_exec_iam_role = false
   create_tasks_iam_role     = false
+  security_group_ids        = [data.terraform_remote_state.base_workspace.outputs.default_security_group_id]
   iam_role_arn              = data.terraform_remote_state.roles_workspace.outputs.ecs_role_arn
   container_definitions = {
     myappcontainer = {

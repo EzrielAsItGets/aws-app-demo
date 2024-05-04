@@ -20,15 +20,6 @@ module "vpc" {
       cidr_blocks = "0.0.0.0/0"
     }
   ]
-  default_security_group_ingress = [
-    {
-      type        = "ingress"
-      from_port   = 0
-      to_port     = 0
-      protocol    = "-1"
-      cidr_blocks = "0.0.0.0/0"
-    }
-  ]
   enable_nat_gateway = true
   single_nat_gateway = true
   tags               = var.common_tags
