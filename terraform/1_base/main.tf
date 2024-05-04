@@ -38,3 +38,20 @@ module "ecr" {
 
   tags = var.common_tags
 }
+
+
+
+module "vpc_vpc-endpoints" {
+  source  = "terraform-aws-modules/vpc/aws//modules/vpc-endpoints"
+  version = "5.8.1"
+  vpc_id  = module.vpc.vpc_id
+  endpoints = {
+    s3 = {
+      # interface endpoint
+      service = "ecr"
+      tags    = { Name = "s3-vpc-endpoint" }
+    }
+  }
+  tags = var.common_tags
+}
+
