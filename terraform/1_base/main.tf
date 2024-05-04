@@ -60,6 +60,7 @@ module "vpc_endpoints" {
     s3 = {
       service             = "s3"
       private_dns_enabled = true
+      route_table_ids     = concat(module.vpc.private_route_table_ids, module.vpc.public_route_table_ids)
       tags                = { Name = "s3-vpc-endpoint" }
     },
   }
