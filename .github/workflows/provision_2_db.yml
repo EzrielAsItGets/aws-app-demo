@@ -1,4 +1,4 @@
-name: Provision 3 Compute
+name: Provision 2 DB
 
 #on: 
 #  push:
@@ -17,8 +17,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        config: [3_compute]
-        aws_region: [us-east-1, us-west-2]
+        config: [2_db]
+        aws_region: [us-east-1]
     steps:
       - name: Checkout code
         uses: actions/checkout@v3

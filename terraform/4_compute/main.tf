@@ -32,10 +32,6 @@ module "ecs_task_definition" {
   cluster_arn = module.ecs_cluster.cluster_arn
 
   # Task Definition
-  volume = {
-    ex-vol = {}
-  }
-
   runtime_platform = {
     cpu_architecture        = "ARM64"
     operating_system_family = "LINUX"
@@ -43,22 +39,14 @@ module "ecs_task_definition" {
 
   # Container definition(s)
   container_definitions = {
-    al2023 = {
-      image = "public.ecr.aws/amazonlinux/amazonlinux:2023-minimal"
-
-      mount_points = [
-        {
-          sourceVolume  = "ex-vol",
-          containerPath = "/var/www/ex-vol"
-        }
-      ]
-
+    myapp = {
+      image      = "public.ecr.aws/amazonlinux/amazonlinux:2023-minimal"
       command    = ["echo hello world"]
       entrypoint = ["/usr/bin/sh", "-c"]
     }
   }
 
-  subnet_ids = data.terraform_remote_state.base_workspace.outputs.vpc_private_subnets.value
+  subnet_ids = data.terraform_remote_state.base_workspace.outputs.vpc_private_subnets
 
   security_group_rules = {
     egress_all = {
