@@ -41,16 +41,24 @@ module "ecr" {
 
 
 
-module "vpc_vpc-endpoints" {
+module "vpc_endpoints" {
   source  = "terraform-aws-modules/vpc/aws//modules/vpc-endpoints"
   version = "5.8.1"
   vpc_id  = module.vpc.vpc_id
   endpoints = {
+    ecr_api = {
+      service = "ecr.api"
+      tags    = { Name = "ecrapi-vpc-endpoint" }
+    },
+    ecr_dkr = {
+      service = "ecr.dkr"
+      tags    = { Name = "ecrdk-vpc-endpoint" }
+    },
     s3 = {
       # interface endpoint
-      service = "ecr"
-      tags    = { Name = "ecr-vpc-endpoint" }
-    }
+      service = "s3"
+      tags    = { Name = "s3-vpc-endpoint" }
+    },
   }
   tags = var.common_tags
 }
