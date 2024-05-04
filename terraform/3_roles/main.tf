@@ -11,6 +11,7 @@ module "ecs_role" {
     "arn:aws:iam::aws:policy/AdministratorAccess"
   ]
   number_of_custom_role_policy_arns = 1
+  role_requires_mfa                 = false
   tags                              = var.common_tags
 }
 
@@ -23,5 +24,6 @@ module "ecs_tasks_role" {
     "arn:aws:iam::aws:policy/AdministratorAccess"
   ]
   number_of_custom_role_policy_arns = 1
+  role_requires_mfa                 = false
   tags                              = var.common_tags
 }
