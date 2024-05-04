@@ -11,6 +11,8 @@ module "vpc" {
   private_subnet_names = ["PrivateSubnet01", "PrivateSubnet02", "PrivateSubnet03"]
   public_subnets       = ["10.0.101.0/24", "10.0.102.0/24", "10.0.103.0/24"]
   public_subnet_names  = ["PublicSubnet01", "PublicSubnet02", "PublicSubnet03"]
+  enable_nat_gateway   = true
+  single_nat_gateway   = true
   tags                 = var.common_tags
 }
 
