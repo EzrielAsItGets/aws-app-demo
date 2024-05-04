@@ -49,7 +49,7 @@ module "vpc_vpc-endpoints" {
     s3 = {
       # interface endpoint
       service = "ecr"
-      tags    = { Name = "s3-vpc-endpoint" }
+      tags    = { Name = "ecr-vpc-endpoint" }
     }
   }
   tags = var.common_tags
