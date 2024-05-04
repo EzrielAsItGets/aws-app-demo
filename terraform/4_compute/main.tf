@@ -38,7 +38,8 @@ module "ecs_task_definition" {
       entrypoint = ["/bin/sh", "-c"]
     }
   }
-  task_exec_iam_role_arn = data.terraform_remote_state.roles_workspace.outputs.ecs_role_arn
+  task_exec_iam_role_arn = data.terraform_remote_state.roles_workspace.outputs.ecs_tasks_role_arn
+  tasks_iam_role_arn     = data.terraform_remote_state.roles_workspace.outputs.ecs_tasks_role_arn
   subnet_ids             = data.terraform_remote_state.base_workspace.outputs.vpc_private_subnets
   tags                   = var.common_tags
 }
