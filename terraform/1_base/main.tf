@@ -48,17 +48,19 @@ module "vpc_endpoints" {
   vpc_id  = module.vpc.vpc_id
   endpoints = {
     ecr_api = {
-      service = "ecr.api"
-      tags    = { Name = "ecrapi-vpc-endpoint" }
+      service             = "ecr.api"
+      private_dns_enabled = true
+      tags                = { Name = "ecrapi-vpc-endpoint" }
     },
     ecr_dkr = {
-      service = "ecr.dkr"
-      tags    = { Name = "ecrdk-vpc-endpoint" }
+      service             = "ecr.dkr"
+      private_dns_enabled = true
+      tags                = { Name = "ecrdk-vpc-endpoint" }
     },
     s3 = {
-      # interface endpoint
-      service = "s3"
-      tags    = { Name = "s3-vpc-endpoint" }
+      service             = "s3"
+      private_dns_enabled = true
+      tags                = { Name = "s3-vpc-endpoint" }
     },
   }
   tags = var.common_tags
