@@ -29,8 +29,8 @@ module "ecs_task_definition" {
   name                   = "${var.project_id}-ecs-service-${var.aws_region_short_names[var.aws_region]}"
   cluster_arn            = module.ecs_cluster.cluster_arn
   iam_role_arn           = data.terraform_remote_state.roles_workspace.outputs.ecs_role_arn
-  create_service         = true
-  create_task_definition = true
+  create_service         = false
+  create_task_definition = false
   container_definitions = {
     myappcontainer = {
       image      = "988367001939.dkr.ecr.us-east-1.amazonaws.com/aws-app-demo:latest"
