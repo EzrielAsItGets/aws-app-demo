@@ -17,7 +17,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        config: [3_compute]
+        config: [4_compute]
         aws_region: [us-east-1]
     steps:
       - name: Checkout code
