@@ -1,4 +1,4 @@
-name: Destroy 4 Base
+name: Destroy 4 DB
 
 #on: 
 #  push:
@@ -17,8 +17,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        config: [1_base]
-        aws_region: [us-east-1, us-west-2]
+        config: [2_db]
+        aws_region: [us-east-1]
     steps:
       - name: Checkout code
         uses: actions/checkout@v3

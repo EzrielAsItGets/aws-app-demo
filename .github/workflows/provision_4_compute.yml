@@ -1,4 +1,4 @@
-name: Provision 2 Roles
+name: Provision 4 Compute
 
 #on: 
 #  push:
@@ -17,8 +17,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        config: [2_roles]
-        aws_region: [us-east-1, us-west-2]
+        config: [4_compute]
+        aws_region: [us-east-1]
     steps:
       - name: Checkout code
         uses: actions/checkout@v3

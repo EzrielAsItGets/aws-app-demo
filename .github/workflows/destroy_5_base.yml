@@ -1,4 +1,4 @@
-name: Destroy 2 Compute
+name: Destroy 5 Base
 
 #on: 
 #  push:
@@ -17,7 +17,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        config: [3_compute]
+        config: [1_base]
         aws_region: [us-east-1]
     steps:
       - name: Checkout code
