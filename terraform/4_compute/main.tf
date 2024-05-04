@@ -25,39 +25,21 @@ module "ecs_cluster" {
 }
 
 module "ecs_task_definition" {
-  source = "terraform-aws-modules/ecs/aws//modules/service"
-
-  # Service
-  name        = "${var.project_id}-ecs-service-${var.aws_region_short_names[var.aws_region]}"
-  cluster_arn = module.ecs_cluster.cluster_arn
-
-  # Task Definition
-  runtime_platform = {
-    cpu_architecture        = "ARM64"
-    operating_system_family = "LINUX"
-  }
-
-  # Container definition(s)
+  source                 = "terraform-aws-modules/ecs/aws//modules/service"
+  name                   = "${var.project_id}-ecs-service-${var.aws_region_short_names[var.aws_region]}"
+  cluster_arn            = module.ecs_cluster.cluster_arn
+  iam_role_arn           = data.terraform_remote_state.roles_workspace.outputs.ecs_role_arn
+  create_service         = true
+  create_task_definition = true
   container_definitions = {
-    myapp = {
-      image      = "public.ecr.aws/amazonlinux/amazonlinux:2023-minimal"
-      command    = ["echo hello world"]
-      entrypoint = ["/usr/bin/sh", "-c"]
+    myappcontainer = {
+      image      = "988367001939.dkr.ecr.us-east-1.amazonaws.com/aws-app-demo:latest"
+      command    = ["node", "server.js"]
+      entrypoint = ["/bin/sh", "-c"]
     }
   }
-
-  subnet_ids = data.terraform_remote_state.base_workspace.outputs.vpc_private_subnets
-
-  security_group_rules = {
-    egress_all = {
-      type        = "egress"
-      from_port   = 0
-      to_port     = 0
-      protocol    = "-1"
-      cidr_blocks = ["0.0.0.0/0"]
-    }
-  }
-
-  tags = var.common_tags
+  task_exec_iam_role_arn = data.terraform_remote_state.roles_workspace.outputs.ecs_role_arn
+  subnet_ids             = data.terraform_remote_state.base_workspace.outputs.vpc_private_subnets
+  tags                   = var.common_tags
 }
 
