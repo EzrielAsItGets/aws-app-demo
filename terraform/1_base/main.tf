@@ -19,6 +19,7 @@ module "ecr" {
   repository_name                   = "aws-app-demo"
   repository_read_write_access_arns = ["arn:aws:iam::988367001939:user/admin"]
   repository_image_tag_mutability   = "MUTABLE"
+  repository_force_delete           = true
   repository_lifecycle_policy = jsonencode({
     rules = [
       {
