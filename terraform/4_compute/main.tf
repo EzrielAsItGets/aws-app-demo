@@ -62,7 +62,7 @@ module "ecs_task_definition" {
       secrets = [
         {
           name      = "PASSWORD"
-          valueFrom = "${data.terraform_remote_state.db_workspace.outputs.secret_arn}:password"
+          valueFrom = "${data.terraform_remote_state.db_workspace.outputs.secret_arn}:password::"
         }
       ]
     }
