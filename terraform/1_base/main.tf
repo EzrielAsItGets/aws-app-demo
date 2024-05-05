@@ -82,6 +82,12 @@ module "vpc_endpoints" {
       subnet_ids          = module.vpc.private_subnets
       tags                = { Name = "logs-vpc-endpoint" }
     },
+    secretsmanager = {
+      service             = "secretsmanager"
+      private_dns_enabled = true
+      subnet_ids          = module.vpc.private_subnets
+      tags                = { Name = "secretsmanager-vpc-endpoint" }
+    },
   }
   tags = var.common_tags
 }
