@@ -114,11 +114,13 @@ module "alb" {
         target_group_key = "myappecs"
       }
     },
-    alb_test = {
+    fixed_response = {
       port     = 81
       protocol = "HTTP"
-      forward = {
-        target_group_key = "fixed_response"
+      fixed_response = {
+        content_type = "text/plain"
+        message_body = "Fixed message"
+        status_code  = "200"
       }
     }
   }
@@ -146,15 +148,6 @@ module "alb" {
       # There's nothing to attach here in this definition. Instead,
       # ECS will attach the IPs of the tasks to this target group
       create_attachment = false
-    }
-    fixed_response = {
-      port     = 81
-      protocol = "HTTP"
-      fixed_response = {
-        content_type = "text/plain"
-        message_body = "Fixed message"
-        status_code  = "200"
-      }
     }
   }
 }
