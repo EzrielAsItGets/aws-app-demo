@@ -7,7 +7,7 @@ output "db_name" {
 }
 
 output "db_endpoint" {
-  value = module.rds_mysql.db_instance_endpoint
+  value = split(":", module.rds_mysql.db_instance_endpoint)[0]
 }
 
 output "db_port" {
