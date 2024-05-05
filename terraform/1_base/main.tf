@@ -23,7 +23,6 @@ module "vpc" {
       protocol  = "-1"
       self      = true
     },
-    # For testing
     {
       type        = "ingress"
       from_port   = 0
