@@ -45,6 +45,15 @@ module "ecs_task_definition" {
     },
     log_configuration = {
       logDriver = "awslogs"
+    },
+    environment = {
+      HOST = data.terraform_remote_state.db_workspace.outputs.db_endpoint
+      USER = data.terraform_remote_state.db_workspace.outputs.username
+      DB   = data.terraform_remote_state.db_workspace.outputs.db_name
+    },
+    secrets = {
+      name      = "PASSWORD"
+      valueFrom = data.terraform_remote_state.db_workspace.outputs.secret_arn
     }
   }
   task_exec_iam_role_arn = data.terraform_remote_state.roles_workspace.outputs.ecs_tasks_role_arn
