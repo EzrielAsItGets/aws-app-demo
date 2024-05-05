@@ -40,8 +40,6 @@ module "ecs_task_definition" {
   container_definitions = {
     myappcontainer = {
       image = "988367001939.dkr.ecr.us-east-1.amazonaws.com/aws-app-demo:latest"
-      /*       command    = ["node", "server.js"]
-      entrypoint = ["/bin/sh", "-c"] */
       port_mappings = [
         {
           name          = "myappcontainerport"
@@ -62,7 +60,7 @@ module "ecs_task_definition" {
           awslogs-stream-prefix = "ecs"
         }
       }
-      /*       environment = [
+      environment = [
         {
           name  = "HOST"
           value = data.terraform_remote_state.db_workspace.outputs.db_endpoint
@@ -81,7 +79,7 @@ module "ecs_task_definition" {
           name      = "PASSWORD"
           valueFrom = "${data.terraform_remote_state.db_workspace.outputs.secret_arn}:password::"
         }
-      ] */
+      ]
     }
   }
   load_balancer = {
