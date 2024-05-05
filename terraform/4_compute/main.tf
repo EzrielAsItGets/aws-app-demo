@@ -28,6 +28,8 @@ module "ecs_task_definition" {
   source                    = "terraform-aws-modules/ecs/aws//modules/service"
   name                      = "${var.project_id}-ecs-service-${var.aws_region_short_names[var.aws_region]}"
   cluster_arn               = module.ecs_cluster.cluster_arn
+  cpu                       = 1024
+  memory                    = 4096
   create_iam_role           = false
   create_security_group     = false
   create_service            = true
