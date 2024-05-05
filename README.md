@@ -8,6 +8,8 @@ This Terraform project manages the cloud infrastructure necessary to host a Node
 - **ECS Fargate** for containerized application deployment in a private subnet.
 - **RDS MySQL** as a relational database in the private subnet.
 
+![AWS Architecture Diagram](/readme-docs/arch.png)
+
 The project is structured into modular directories for base setup, database, roles, and compute resources to ensure clear separation of concerns and ease of management.
 
 ## Architecture
