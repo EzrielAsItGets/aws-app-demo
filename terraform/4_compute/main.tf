@@ -2,6 +2,7 @@
 # Main
 # -----------------------------------------------------------------------
 
+# Module for creating an ECS cluster
 module "ecs_cluster" {
   source       = "terraform-aws-modules/ecs/aws"
   cluster_name = "${var.project_id}-ecs-cluster-${var.aws_region_short_names[var.aws_region]}"
@@ -21,9 +22,11 @@ module "ecs_cluster" {
     }
   }
 
+  # Tags for resources
   tags = var.common_tags
 }
 
+# Module for creating an ECS task definition
 module "ecs_task_definition" {
   source                    = "terraform-aws-modules/ecs/aws//modules/service"
   name                      = "${var.project_id}-ecs-service-${var.aws_region_short_names[var.aws_region]}"
@@ -35,8 +38,14 @@ module "ecs_task_definition" {
   create_task_exec_policy   = false
   create_task_exec_iam_role = false
   create_tasks_iam_role     = false
-  security_group_ids        = [data.terraform_remote_state.base_workspace.outputs.default_security_group_id]
-  iam_role_arn              = data.terraform_remote_state.roles_workspace.outputs.ecs_role_arn
+
+  # Security groups and IAM roles
+  security_group_ids     = [data.terraform_remote_state.base_workspace.outputs.default_security_group_id]
+  iam_role_arn           = data.terraform_remote_state.roles_workspace.outputs.ecs_role_arn
+  task_exec_iam_role_arn = data.terraform_remote_state.roles_workspace.outputs.ecs_tasks_role_arn
+  tasks_iam_role_arn     = data.terraform_remote_state.roles_workspace.outputs.ecs_tasks_role_arn
+
+  # Container definitions
   container_definitions = {
     myappcontainer = {
       image = "988367001939.dkr.ecr.us-east-1.amazonaws.com/aws-app-demo:latest"
@@ -82,6 +91,8 @@ module "ecs_task_definition" {
       ]
     }
   }
+
+  # Load balancer configuration
   load_balancer = {
     service = {
       target_group_arn = module.alb.target_groups["myappecs"].arn
@@ -89,12 +100,13 @@ module "ecs_task_definition" {
       container_port   = "8080"
     }
   }
-  task_exec_iam_role_arn = data.terraform_remote_state.roles_workspace.outputs.ecs_tasks_role_arn
-  tasks_iam_role_arn     = data.terraform_remote_state.roles_workspace.outputs.ecs_tasks_role_arn
-  subnet_ids             = data.terraform_remote_state.base_workspace.outputs.vpc_private_subnets
-  tags                   = var.common_tags
+
+  # Subnets and tags
+  subnet_ids = data.terraform_remote_state.base_workspace.outputs.vpc_private_subnets
+  tags       = var.common_tags
 }
 
+# Module for creating an Application Load Balancer (ALB)
 module "alb" {
   source                     = "terraform-aws-modules/alb/aws"
   load_balancer_type         = "application"
@@ -104,6 +116,8 @@ module "alb" {
   create_security_group      = false
   enable_deletion_protection = false
   security_groups            = [data.terraform_remote_state.base_workspace.outputs.default_security_group_id]
+
+  # Listeners and target groups
   listeners = {
     http = {
       port     = 80
@@ -149,4 +163,3 @@ module "alb" {
     }
   }
 }
-

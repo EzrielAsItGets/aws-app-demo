@@ -2,6 +2,7 @@
 # Data Sources
 # -----------------------------------------------------------------------
 
+# Data source for retrieving information from the base workspace
 data "terraform_remote_state" "base_workspace" {
   backend = "remote"
   config = {
