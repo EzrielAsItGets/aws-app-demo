@@ -17,11 +17,11 @@ module "vpc" {
   create_flow_log_cloudwatch_iam_role  = true
   default_security_group_ingress = [
     {
-      type                     = "ingress"
-      from_port                = 0
-      to_port                  = 0
-      protocol                 = "-1"
-      source_security_group_id = module.vpc.default_security_group_id
+      type      = "ingress"
+      from_port = 0
+      to_port   = 0
+      protocol  = "-1"
+      self      = true
     }
   ]
   default_security_group_egress = [
