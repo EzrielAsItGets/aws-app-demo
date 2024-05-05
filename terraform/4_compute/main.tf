@@ -102,7 +102,7 @@ module "alb" {
   load_balancer_type         = "application"
   name                       = "${var.project_id}-alb-${var.aws_region_short_names[var.aws_region]}"
   vpc_id                     = data.terraform_remote_state.base_workspace.outputs.vpc_id
-  subnets                    = data.terraform_remote_state.base_workspace.outputs.vpc_private_subnets
+  subnets                    = data.terraform_remote_state.base_workspace.outputs.vpc_public_subnets
   create_security_group      = false
   enable_deletion_protection = false
   security_groups            = [data.terraform_remote_state.base_workspace.outputs.default_security_group_id]
@@ -114,11 +114,13 @@ module "alb" {
         target_group_key = "myappecs"
       }
     },
-    alb_test = {
+    fixed_response = {
       port     = 81
       protocol = "HTTP"
-      forward = {
-        target_group_key = "fixed_response"
+      fixed_response = {
+        content_type = "text/plain"
+        message_body = "Fixed message"
+        status_code  = "200"
       }
     }
   }
@@ -141,20 +143,11 @@ module "alb" {
         protocol            = "HTTP"
         timeout             = 5
         unhealthy_threshold = 2
+      }
 
-        # There's nothing to attach here in this definition. Instead,
-        # ECS will attach the IPs of the tasks to this target group
-        create_attachment = false
-      }
-    }
-    fixed_response = {
-      port     = 81
-      protocol = "HTTP"
-      fixed_response = {
-        content_type = "text/plain"
-        message_body = "Fixed message"
-        status_code  = "200"
-      }
+      # There's nothing to attach here in this definition. Instead,
+      # ECS will attach the IPs of the tasks to this target group
+      create_attachment = false
     }
   }
 }
