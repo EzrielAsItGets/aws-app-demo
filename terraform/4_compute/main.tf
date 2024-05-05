@@ -141,11 +141,11 @@ module "alb" {
         protocol            = "HTTP"
         timeout             = 5
         unhealthy_threshold = 2
-
-        # There's nothing to attach here in this definition. Instead,
-        # ECS will attach the IPs of the tasks to this target group
-        create_attachment = false
       }
+
+      # There's nothing to attach here in this definition. Instead,
+      # ECS will attach the IPs of the tasks to this target group
+      create_attachment = false
     }
     fixed_response = {
       port     = 81
