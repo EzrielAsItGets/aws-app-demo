@@ -6,7 +6,7 @@ name: Destroy 4 Base
 #      - develop
 #      - master
 #    paths:
-#      - 'terraform/**'
+#      - 'terraform/1_base/**'
 
 on: 
     workflow_dispatch:  # This enables manual trigger from GitHub UI

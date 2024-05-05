@@ -6,7 +6,7 @@ name: Destroy 3 DB
 #      - develop
 #      - master
 #    paths:
-#      - 'terraform/**'
+#      - 'terraform/2_db/**'
 
 on: 
     workflow_dispatch:  # This enables manual trigger from GitHub UI

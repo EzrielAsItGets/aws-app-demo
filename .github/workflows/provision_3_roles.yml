@@ -6,7 +6,7 @@ name: Provision 3 Roles
 #      - develop
 #      - master
 #    paths:
-#      - 'terraform/**'
+#      - 'terraform/3_roles/**'
 
 on: 
     workflow_dispatch:  # This enables manual trigger from GitHub UI
