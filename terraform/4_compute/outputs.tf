@@ -17,3 +17,7 @@ output "ecs_container_name" {
 output "ecs_service_name" {
   value = module.ecs_task_definition.name
 }
+
+output "alb_dns" {
+  value = module.alb.dns_name
+}
