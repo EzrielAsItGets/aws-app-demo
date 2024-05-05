@@ -53,7 +53,7 @@ module "ecs_task_definition" {
     },
     secrets = {
       name      = "PASSWORD"
-      valueFrom = data.terraform_remote_state.db_workspace.outputs.secret_arn
+      valueFrom = "${data.terraform_remote_state.db_workspace.outputs.secret_arn}:password"
     }
   }
   task_exec_iam_role_arn = data.terraform_remote_state.roles_workspace.outputs.ecs_tasks_role_arn
