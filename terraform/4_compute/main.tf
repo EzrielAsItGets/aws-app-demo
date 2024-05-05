@@ -42,8 +42,20 @@ module "ecs_task_definition" {
       image      = "988367001939.dkr.ecr.us-east-1.amazonaws.com/aws-app-demo:latest"
       command    = ["node", "server.js"]
       entrypoint = ["/bin/sh", "-c"]
+      port_mappings = [
+        {
+          name          = "myappcontainer"
+          containerPort = 8080
+          protocol      = "tcp"
+        }
+      ]
       log_configuration = {
         logDriver = "awslogs"
+        options = {
+          awslogs-group         = "/aws/ecs/myapp-ecs-service-use1/myappcontainer"
+          awslogs-region        = "us-east-1"
+          awslogs-stream-prefix = "ecs"
+        }
       },
       environment = [
         {
