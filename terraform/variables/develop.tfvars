@@ -1,4 +1,4 @@
-project_id = "myapp-dev"
+project_id = "myapp"
 common_tags = {
   env       = "dev"
   terraform = "true"
