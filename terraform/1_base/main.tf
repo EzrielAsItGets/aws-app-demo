@@ -28,7 +28,7 @@ module "vpc" {
   flow_log_max_aggregation_interval         = 60
   flow_log_cloudwatch_log_group_name_prefix = "/aws/myapp-flow-logs/"
   flow_log_cloudwatch_log_group_name_suffix = "test"
-  flow_log_cloudwatch_log_group_class       = "INFREQUENT_ACCESS"
+  flow_log_cloudwatch_log_group_class       = "STANDARD"
   tags                                      = var.common_tags
 }
 
