@@ -20,9 +20,7 @@ module "vpc" {
       cidr_blocks = "0.0.0.0/0"
     }
   ]
-  enable_nat_gateway = true
-  single_nat_gateway = true
-  tags               = var.common_tags
+  tags = var.common_tags
 }
 
 module "ecr" {
@@ -62,11 +60,13 @@ module "vpc_endpoints" {
     ecr_api = {
       service             = "ecr.api"
       private_dns_enabled = true
+      subnet_ids          = module.vpc.private_subnets
       tags                = { Name = "ecrapi-vpc-endpoint" }
     },
     ecr_dkr = {
       service             = "ecr.dkr"
       private_dns_enabled = true
+      subnet_ids          = module.vpc.private_subnets
       tags                = { Name = "ecrdk-vpc-endpoint" }
     },
     s3 = {
