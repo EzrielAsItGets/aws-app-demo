@@ -15,7 +15,24 @@ module "vpc" {
   enable_flow_log                      = true
   create_flow_log_cloudwatch_log_group = true
   create_flow_log_cloudwatch_iam_role  = true
-
+  default_security_group_ingress = [
+    {
+      type      = "ingress"
+      from_port = 0
+      to_port   = 0
+      protocol  = "-1"
+      self      = true
+    }
+  ]
+  default_security_group_egress = [
+    {
+      type        = "egress"
+      from_port   = 0
+      to_port     = 0
+      protocol    = "-1"
+      cidr_blocks = "0.0.0.0/0"
+    }
+  ]
   flow_log_max_aggregation_interval         = 60
   flow_log_cloudwatch_log_group_name_prefix = "/aws/myapp-flow-logs/"
   flow_log_cloudwatch_log_group_name_suffix = "test"
@@ -81,6 +98,12 @@ module "vpc_endpoints" {
       private_dns_enabled = true
       subnet_ids          = module.vpc.private_subnets
       tags                = { Name = "logs-vpc-endpoint" }
+    },
+    secretsmanager = {
+      service             = "secretsmanager"
+      private_dns_enabled = true
+      subnet_ids          = module.vpc.private_subnets
+      tags                = { Name = "secretsmanager-vpc-endpoint" }
     },
   }
   tags = var.common_tags

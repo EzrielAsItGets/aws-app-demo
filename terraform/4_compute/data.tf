@@ -12,6 +12,16 @@ data "terraform_remote_state" "base_workspace" {
   }
 }
 
+data "terraform_remote_state" "db_workspace" {
+  backend = "remote"
+  config = {
+    organization = "ezrielasitgets"
+    workspaces = {
+      name = "${var.project_id}-2_db-${var.aws_region}"
+    }
+  }
+}
+
 data "terraform_remote_state" "roles_workspace" {
   backend = "remote"
   config = {
@@ -21,3 +31,5 @@ data "terraform_remote_state" "roles_workspace" {
     }
   }
 }
+
+
