@@ -37,6 +37,9 @@ module "vpc" {
   flow_log_cloudwatch_log_group_name_prefix = "/aws/myapp-flow-logs/"
   flow_log_cloudwatch_log_group_name_suffix = "test"
   flow_log_cloudwatch_log_group_class       = "STANDARD"
+  enable_nat_gateway                        = true
+  single_nat_gateway                        = true
+  one_nat_gateway_per_az                    = false
   tags                                      = var.common_tags
 }
 
