@@ -44,8 +44,13 @@ module "ecs_task_definition" {
       entrypoint = ["/bin/sh", "-c"]
       port_mappings = [
         {
-          name          = "myappcontainer"
+          name          = "myappcontainerport"
           containerPort = 8080
+          protocol      = "tcp"
+        },
+        {
+          name          = "dbport"
+          containerPort = data.terraform_remote_state.db_workspace.outputs.db_port
           protocol      = "tcp"
         }
       ]
