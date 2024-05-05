@@ -75,6 +75,13 @@ module "ecs_task_definition" {
   task_exec_iam_role_arn = data.terraform_remote_state.roles_workspace.outputs.ecs_tasks_role_arn
   tasks_iam_role_arn     = data.terraform_remote_state.roles_workspace.outputs.ecs_tasks_role_arn
   subnet_ids             = data.terraform_remote_state.base_workspace.outputs.vpc_private_subnets
-  tags                   = var.common_tags
+  port_mappings = [
+    {
+      name          = "myappcontainer"
+      containerPort = 8080
+      protocol      = "tcp"
+    }
+  ]
+  tags = var.common_tags
 }
 
