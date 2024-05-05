@@ -11,13 +11,24 @@ module "vpc" {
   private_subnet_names = ["PrivateSubnet01", "PrivateSubnet02", "PrivateSubnet03"]
   public_subnets       = ["10.0.101.0/24", "10.0.102.0/24", "10.0.103.0/24"]
   public_subnet_names  = ["PublicSubnet01", "PublicSubnet02", "PublicSubnet03"]
-  tags                 = var.common_tags
+  # Cloudwatch log group and IAM role will be created
+  enable_flow_log                      = true
+  create_flow_log_cloudwatch_log_group = true
+  create_flow_log_cloudwatch_iam_role  = true
+
+  flow_log_max_aggregation_interval         = 60
+  flow_log_cloudwatch_log_group_name_prefix = "/aws/myapp-flow-logs/"
+  flow_log_cloudwatch_log_group_name_suffix = "test"
+  flow_log_cloudwatch_log_group_class       = "STANDARD"
+  tags                                      = var.common_tags
 }
 
 module "ecr" {
   source                            = "terraform-aws-modules/ecr/aws"
   repository_name                   = "aws-app-demo"
   repository_read_write_access_arns = ["arn:aws:iam::988367001939:user/admin"]
+  repository_image_tag_mutability   = "MUTABLE"
+  repository_force_delete           = true
   repository_lifecycle_policy = jsonencode({
     rules = [
       {
@@ -41,16 +52,36 @@ module "ecr" {
 
 
 
-module "vpc_vpc-endpoints" {
+module "vpc_endpoints" {
   source  = "terraform-aws-modules/vpc/aws//modules/vpc-endpoints"
   version = "5.8.1"
   vpc_id  = module.vpc.vpc_id
   endpoints = {
+    ecr_api = {
+      service             = "ecr.api"
+      private_dns_enabled = true
+      subnet_ids          = module.vpc.private_subnets
+      tags                = { Name = "ecrapi-vpc-endpoint" }
+    },
+    ecr_dkr = {
+      service             = "ecr.dkr"
+      private_dns_enabled = true
+      subnet_ids          = module.vpc.private_subnets
+      tags                = { Name = "ecrdk-vpc-endpoint" }
+    },
     s3 = {
-      # interface endpoint
-      service = "ecr"
-      tags    = { Name = "ecr-vpc-endpoint" }
-    }
+      service             = "s3"
+      service_type        = "Gateway"
+      private_dns_enabled = true
+      route_table_ids     = concat(module.vpc.private_route_table_ids, module.vpc.public_route_table_ids)
+      tags                = { Name = "s3-vpc-endpoint" }
+    },
+    logs = {
+      service             = "logs"
+      private_dns_enabled = true
+      subnet_ids          = module.vpc.private_subnets
+      tags                = { Name = "logs-vpc-endpoint" }
+    },
   }
   tags = var.common_tags
 }

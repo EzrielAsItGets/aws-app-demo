@@ -13,3 +13,7 @@ output "ecr_name" {
 output "ecr_url" {
   value = module.ecr.repository_url
 }
+
+output "default_security_group_id" {
+  value = module.vpc.default_security_group_id
+}

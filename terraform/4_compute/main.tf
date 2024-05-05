@@ -25,20 +25,30 @@ module "ecs_cluster" {
 }
 
 module "ecs_task_definition" {
-  source                 = "terraform-aws-modules/ecs/aws//modules/service"
-  name                   = "${var.project_id}-ecs-service-${var.aws_region_short_names[var.aws_region]}"
-  cluster_arn            = module.ecs_cluster.cluster_arn
-  iam_role_arn           = data.terraform_remote_state.roles_workspace.outputs.ecs_role_arn
-  create_service         = true
-  create_task_definition = true
+  source                    = "terraform-aws-modules/ecs/aws//modules/service"
+  name                      = "${var.project_id}-ecs-service-${var.aws_region_short_names[var.aws_region]}"
+  cluster_arn               = module.ecs_cluster.cluster_arn
+  create_iam_role           = false
+  create_security_group     = false
+  create_service            = true
+  create_task_definition    = true
+  create_task_exec_policy   = false
+  create_task_exec_iam_role = false
+  create_tasks_iam_role     = false
+  security_group_ids        = [data.terraform_remote_state.base_workspace.outputs.default_security_group_id]
+  iam_role_arn              = data.terraform_remote_state.roles_workspace.outputs.ecs_role_arn
   container_definitions = {
     myappcontainer = {
       image      = "988367001939.dkr.ecr.us-east-1.amazonaws.com/aws-app-demo:latest"
       command    = ["node", "server.js"]
       entrypoint = ["/bin/sh", "-c"]
+    },
+    log_configuration = {
+      logDriver = "awslogs"
     }
   }
-  task_exec_iam_role_arn = data.terraform_remote_state.roles_workspace.outputs.ecs_role_arn
+  task_exec_iam_role_arn = data.terraform_remote_state.roles_workspace.outputs.ecs_tasks_role_arn
+  tasks_iam_role_arn     = data.terraform_remote_state.roles_workspace.outputs.ecs_tasks_role_arn
   subnet_ids             = data.terraform_remote_state.base_workspace.outputs.vpc_private_subnets
   tags                   = var.common_tags
 }
