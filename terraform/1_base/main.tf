@@ -15,7 +15,25 @@ module "vpc" {
   enable_flow_log                      = true
   create_flow_log_cloudwatch_log_group = true
   create_flow_log_cloudwatch_iam_role  = true
-
+  default_security_group_ingress = [
+    {
+      type                     = "ingress"
+      from_port                = 0
+      to_port                  = 0
+      protocol                 = "-1"
+      source_security_group_id = module.vpc.default_security_group_id
+    }
+  ]
+  default_security_group_egress = [
+    {
+      type             = "egress"
+      from_port        = 0
+      to_port          = 0
+      protocol         = "-1"
+      cidr_blocks      = ["0.0.0.0/0"]
+      ipv6_cidr_blocks = ["::/0"]
+    }
+  ]
   flow_log_max_aggregation_interval         = 60
   flow_log_cloudwatch_log_group_name_prefix = "/aws/myapp-flow-logs/"
   flow_log_cloudwatch_log_group_name_suffix = "test"
