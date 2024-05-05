@@ -47,9 +47,16 @@ module "ecs_task_definition" {
       },
       environment = [
         {
-          HOST   = data.terraform_remote_state.db_workspace.outputs.db_endpoint
-          USER   = data.terraform_remote_state.db_workspace.outputs.username
-          DBNAME = data.terraform_remote_state.db_workspace.outputs.db_name
+          name  = "HOST"
+          value = data.terraform_remote_state.db_workspace.outputs.db_endpoint
+        },
+        {
+          name  = "USER"
+          value = data.terraform_remote_state.db_workspace.outputs.username
+        },
+        {
+          name  = "DBNAME"
+          value = data.terraform_remote_state.db_workspace.outputs.db_name
         }
       ],
       secrets = [
