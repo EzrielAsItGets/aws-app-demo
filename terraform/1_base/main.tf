@@ -76,7 +76,7 @@ module "vpc_endpoints" {
       route_table_ids     = concat(module.vpc.private_route_table_ids, module.vpc.public_route_table_ids)
       tags                = { Name = "s3-vpc-endpoint" }
     },
-    ecr_api = {
+    logs = {
       service             = "logs"
       private_dns_enabled = true
       subnet_ids          = module.vpc.private_subnets
