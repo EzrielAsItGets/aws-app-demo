@@ -102,7 +102,7 @@ module "alb" {
   load_balancer_type         = "application"
   name                       = "${var.project_id}-alb-${var.aws_region_short_names[var.aws_region]}"
   vpc_id                     = data.terraform_remote_state.base_workspace.outputs.vpc_id
-  subnets                    = data.terraform_remote_state.base_workspace.outputs.vpc_private_subnets
+  subnets                    = data.terraform_remote_state.base_workspace.outputs.vpc_public_subnets
   create_security_group      = false
   enable_deletion_protection = false
   security_groups            = [data.terraform_remote_state.base_workspace.outputs.default_security_group_id]
