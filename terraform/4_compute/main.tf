@@ -44,6 +44,11 @@ module "ecs_task_definition" {
       entrypoint = ["/bin/sh", "-c"]
       log_configuration = {
         logDriver = "awslogs"
+        options = {
+          awslogs-group         = "/aws/ecs/myapp-ecs-service-use1/myappcontainer"
+          awslogs-region        = "us-east-1"
+          awslogs-stream-prefix = "ecs"
+        }
       },
       environment = [
         {
