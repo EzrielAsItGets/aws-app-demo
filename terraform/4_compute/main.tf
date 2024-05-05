@@ -61,8 +61,8 @@ module "ecs_task_definition" {
           awslogs-region        = "us-east-1"
           awslogs-stream-prefix = "ecs"
         }
-      },
-      environment = [
+      }
+      /*       environment = [
         {
           name  = "HOST"
           value = data.terraform_remote_state.db_workspace.outputs.db_endpoint
@@ -81,7 +81,7 @@ module "ecs_task_definition" {
           name      = "PASSWORD"
           valueFrom = "${data.terraform_remote_state.db_workspace.outputs.secret_arn}:password::"
         }
-      ]
+      ] */
     }
   }
   load_balancer = {
