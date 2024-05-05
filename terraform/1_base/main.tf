@@ -20,7 +20,16 @@ module "vpc" {
       cidr_blocks = "0.0.0.0/0"
     }
   ]
-  tags = var.common_tags
+  # Cloudwatch log group and IAM role will be created
+  enable_flow_log                      = true
+  create_flow_log_cloudwatch_log_group = true
+  create_flow_log_cloudwatch_iam_role  = true
+
+  flow_log_max_aggregation_interval         = 60
+  flow_log_cloudwatch_log_group_name_prefix = "/aws/myapp-flow-logs/"
+  flow_log_cloudwatch_log_group_name_suffix = "test"
+  flow_log_cloudwatch_log_group_class       = "INFREQUENT_ACCESS"
+  tags                                      = var.common_tags
 }
 
 module "ecr" {
