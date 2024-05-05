@@ -39,9 +39,9 @@ module "ecs_task_definition" {
   iam_role_arn              = data.terraform_remote_state.roles_workspace.outputs.ecs_role_arn
   container_definitions = {
     myappcontainer = {
-      image      = "988367001939.dkr.ecr.us-east-1.amazonaws.com/aws-app-demo:latest"
-      command    = ["node", "server.js"]
-      entrypoint = ["/bin/sh", "-c"]
+      image = "988367001939.dkr.ecr.us-east-1.amazonaws.com/aws-app-demo:latest"
+      /*       command    = ["node", "server.js"]
+      entrypoint = ["/bin/sh", "-c"] */
       port_mappings = [
         {
           name          = "myappcontainerport"
