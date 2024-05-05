@@ -11,15 +11,6 @@ module "vpc" {
   private_subnet_names = ["PrivateSubnet01", "PrivateSubnet02", "PrivateSubnet03"]
   public_subnets       = ["10.0.101.0/24", "10.0.102.0/24", "10.0.103.0/24"]
   public_subnet_names  = ["PublicSubnet01", "PublicSubnet02", "PublicSubnet03"]
-  default_security_group_egress = [
-    {
-      type        = "egress"
-      from_port   = 0
-      to_port     = 0
-      protocol    = "-1"
-      cidr_blocks = "0.0.0.0/0"
-    }
-  ]
   # Cloudwatch log group and IAM role will be created
   enable_flow_log                      = true
   create_flow_log_cloudwatch_log_group = true
@@ -84,6 +75,12 @@ module "vpc_endpoints" {
       private_dns_enabled = true
       route_table_ids     = concat(module.vpc.private_route_table_ids, module.vpc.public_route_table_ids)
       tags                = { Name = "s3-vpc-endpoint" }
+    },
+    ecr_api = {
+      service             = "logs"
+      private_dns_enabled = true
+      subnet_ids          = module.vpc.private_subnets
+      tags                = { Name = "logs-vpc-endpoint" }
     },
   }
   tags = var.common_tags
