@@ -6,7 +6,7 @@ name: Provision 4 Compute
 #      - develop
 #      - master
 #    paths:
-#      - 'terraform/**'
+#      - 'terraform/4_compute/**'
 
 on: 
     workflow_dispatch:  # This enables manual trigger from GitHub UI
