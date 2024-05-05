@@ -42,7 +42,6 @@ module "ecs_task_definition" {
       image      = "988367001939.dkr.ecr.us-east-1.amazonaws.com/aws-app-demo:latest"
       command    = ["node", "server.js"]
       entrypoint = ["/bin/sh", "-c"]
-      cpu        = 1024
       port_mappings = [
         {
           name          = "myappcontainerport"
