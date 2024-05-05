@@ -28,8 +28,6 @@ module "ecs_task_definition" {
   source                    = "terraform-aws-modules/ecs/aws//modules/service"
   name                      = "${var.project_id}-ecs-service-${var.aws_region_short_names[var.aws_region]}"
   cluster_arn               = module.ecs_cluster.cluster_arn
-  cpu                       = 1024
-  memory                    = 4096
   create_iam_role           = false
   create_security_group     = false
   create_service            = true
@@ -44,6 +42,7 @@ module "ecs_task_definition" {
       image      = "988367001939.dkr.ecr.us-east-1.amazonaws.com/aws-app-demo:latest"
       command    = ["node", "server.js"]
       entrypoint = ["/bin/sh", "-c"]
+      cpu        = 1024
       port_mappings = [
         {
           name          = "myappcontainerport"
