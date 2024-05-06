@@ -18,6 +18,7 @@ The project is structured into modular directories for base setup, database, rol
 
 Before you can run this project, you need to set up the following:
 - An **AWS Account**: Ensure you have access to an AWS account with permissions to manage ECS, RDS, and related AWS services.
+- **Git**: Required for version control. If you need to install Git, follow the instructions on the [Git website](https://git-scm.com/downloads).
 - **Terraform CLI**: For local development with Terraform.
 - **Terraform Cloud for Business (HCP) Account**: This account will manage your Terraform state files and run operations securely. Sign up and create your organization at [Terraform Cloud](https://app.terraform.io/signup/account).
 - **Terraform API Key**: Store your Terraform Cloud API key as a secret in your GitHub repository to authenticate the Terraform operations initiated by GitHub Actions.
@@ -44,11 +45,16 @@ GitHub Actions handle the Terraform operations, provisioning resources as define
 
 ### Local Environment
 To deploy the infrastructure locally:
-1. **Log In to Terraform HCP via CLI**: Run `terraform login` and enter the API Key, or create one if you haven't already.
-2. **Create Terraform Workspace**: Create a workspace for each module in this format: `terraform workspace new <project_name>-<module_layer>-<region>`. Then run `terraform workspace select <workspace>` to select the workspace.
-3. **Update providers.tf**: Update the terraform organization to the one you created in Terraform HCP.
-4. **Initialilze Terraform Environment**: Navigate to the layer you'd like to deploy via `cd <terraform_module>`. Then run `terraform init` to download the necessary Terraform providers and set up the environment.
-5. **Apply Terraform**: Run `terraform apply -auto-approve -var-file=<branch>.tf -var "aws_region=<region>` to apply the infrastructure.
+1. **Clone the Repository**
+   ```bash
+   git clone https://github.com/EzrielAsItGets/aws-app-demo.git
+   cd aws-app-demo
+   ```
+2. **Log In to Terraform HCP via CLI**: Run `terraform login` and enter the API Key, or create one if you haven't already.
+3. **Create Terraform Workspace**: Create a workspace for each module in this format: `terraform workspace new <project_name>-<module_layer>-<region>`. Then run `terraform workspace select <workspace>` to select the workspace.
+4. **Update providers.tf**: Update the terraform organization to the one you created in Terraform HCP.
+5. **Initialilze Terraform Environment**: Navigate to the layer you'd like to deploy via `cd <terraform_module>`. Then run `terraform init` to download the necessary Terraform providers and set up the environment.
+6. **Apply Terraform**: Run `terraform apply -auto-approve -var-file=<branch>.tf -var "aws_region=<region>` to apply the infrastructure.
 
 ## Contributing
 
