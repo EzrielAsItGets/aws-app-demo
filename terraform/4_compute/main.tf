@@ -54,11 +54,6 @@ module "ecs_task_definition" {
           name          = "myappcontainerport"
           containerPort = 8080
           protocol      = "tcp"
-        },
-        {
-          name          = "dbport"
-          containerPort = data.terraform_remote_state.db_workspace.outputs.db_port
-          protocol      = "tcp"
         }
       ]
       log_configuration = {
