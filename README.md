@@ -48,7 +48,7 @@ To deploy the infrastructure locally:
 2. **Create Terraform Workspace**: Create a workspace for each module in this format: `terraform workspace new <project_name>-<module_layer>-<region>`. Then run `terraform workspace select <workspace>` to select the workspace.
 3. **Update providers.tf**: Update the terraform organization to the one you created in Terraform HCP.
 4. **Initialilze Terraform Environment**: Navigate to the layer you'd like to deploy via `cd <terraform_module>`. Then run `terraform init` to download the necessary Terraform providers and set up the environment.
-5. **Apply Terraform**: Run `terraform apply` to apply the infrastructure.
+5. **Apply Terraform**: Run `terraform apply -auto-approve -var-file=<branch>.tf -var "aws_region=<region>` to apply the infrastructure.
 
 ## Contributing
 
