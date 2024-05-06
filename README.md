@@ -32,9 +32,10 @@ Before you can run this project, you need to set up the following:
 ## Running the Project
 
 To deploy the infrastructure:
-1. **Start the Workflow**: Trigger the GitHub Actions workflow manually from the Actions tab in your GitHub repository. Select the workflow that corresponds to your deployment needs (development or production). **YOU MUST EXECUTE THEM IN THE NUMBERED ORDER**
-2. **Workflow Execution**: The workflow uses the appropriate `.tfvars` file based on the branch (develop or master) to apply Terraform configurations.
-3. **Dynamic Configuration**: Terraform workspaces are used to manage state files and outputs dynamically across different environments. These outputs are then used to populate variables in subsequent Terraform runs.
+1. **Start the Workflow**: Trigger the GitHub Actions workflow manually from the Actions tab in your GitHub repository. Select the workflow that corresponds to your deployment needs (development or production).
+   - **YOU MUST EXECUTE THEM IN THE NUMBERED ORDER**
+3. **Workflow Execution**: The workflow uses the appropriate `.tfvars` file based on the branch (develop or master) to apply Terraform configurations.
+4. **Dynamic Configuration**: Terraform workspaces are used to manage state files and outputs dynamically across different environments. These outputs are then used to populate variables in subsequent Terraform runs.
 
 GitHub Actions handle the Terraform operations, provisioning resources as defined in the configuration files using Terraform Cloud. There is no need to run Terraform commands locally, as all operations are handled through CI/CD.
 
