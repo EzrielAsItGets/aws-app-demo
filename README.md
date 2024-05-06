@@ -8,13 +8,11 @@ This Terraform project manages the cloud infrastructure necessary to host a Node
 - **ECS Fargate** for containerized application deployment in a private subnet.
 - **RDS MySQL** as a relational database in the private subnet.
 
-![AWS Architecture Diagram](/readme-docs/arch.png)
-
 The project is structured into modular directories for base setup, database, roles, and compute resources to ensure clear separation of concerns and ease of management.
 
 ## Architecture
 
-Insert AWS architecture diagram here.
+![AWS Architecture Diagram](/readme-docs/arch.png)
 
 ## Prerequisites
 
@@ -34,7 +32,7 @@ Before you can run this project, you need to set up the following:
 ## Running the Project
 
 To deploy the infrastructure:
-1. **Start the Workflow**: Trigger the GitHub Actions workflow manually from the Actions tab in your GitHub repository. Select the workflow that corresponds to your deployment needs (development or production).
+1. **Start the Workflow**: Trigger the GitHub Actions workflow manually from the Actions tab in your GitHub repository. Select the workflow that corresponds to your deployment needs (development or production). **YOU MUST EXECUTE THEM IN THE NUMBERED ORDER**
 2. **Workflow Execution**: The workflow uses the appropriate `.tfvars` file based on the branch (develop or master) to apply Terraform configurations.
 3. **Dynamic Configuration**: Terraform workspaces are used to manage state files and outputs dynamically across different environments. These outputs are then used to populate variables in subsequent Terraform runs.
 
